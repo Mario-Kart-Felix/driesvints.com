@@ -3,10 +3,6 @@
     'metaDescription' => $post->excerpt(160),
 ])
 
-@section('scripts')
-    <script src="{{ mix('js/post.js') }}"></script>
-@endsection
-
 @section('body')
     @component('layouts.header', ['small' => true, 'photo' => 'header-black.jpg'])
     @endcomponent
@@ -27,7 +23,17 @@
 
                     <p class="block text-xs uppercase text-gray-600">
                         @if ($post->published_at)
-                            Published on {{ $post->published_at->format('F j, Y') }}
+                            @if ($post->isUpdated())
+                                First published
+                            @else
+                                Published
+                            @endif
+
+                            on <strong>{{ $post->published_at->format('F j, Y') }}</strong>
+
+                            @if ($post->isUpdated())
+                                &middot; Last updated on <strong>{{ $post->updated_at->format('F j, Y') }}</strong>
+                            @endif
                         @else
                             Not yet scheduled
                         @endif
@@ -67,8 +73,6 @@
                         <i class="enlarge fab fa-linkedin-in"></i>
                     </a>
                 </p>
-
-                @include('partials.sponsoring')
             </div>
         </div>
 

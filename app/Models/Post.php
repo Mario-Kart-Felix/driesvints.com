@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Markdown;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,16 +17,13 @@ final class Post extends Model implements Feedable
 {
     use HasFactory;
 
-    protected $dates = [
-        'published_at',
-    ];
-
     protected $attributes = [
         'content' => '',
         'excerpt' => '',
     ];
 
     protected $casts = [
+        'published_at' => 'datetime',
         'content' => 'string',
         'excerpt' => 'string',
     ];
@@ -95,12 +91,9 @@ final class Post extends Model implements Feedable
 
     public function content(): string
     {
-        return app(Markdown::class)->toHtml($this->content);
-    }
-
-    public function hasFacebookVideo(): bool
-    {
-        return Str::contains($this->content, 'fb-video');
+        return Str::markdown($this->content, [
+            'allow_unsafe_links' => false,
+        ]);
     }
 
     public function isUnpublished(): bool
@@ -126,7 +119,7 @@ final class Post extends Model implements Feedable
             ->summary($this->excerpt())
             ->updated($this->updated_at)
             ->link(route('post', $this))
-            ->author('Dries Vints');
+            ->authorName('Dries Vints');
     }
 
     public static function getFeedItems(): Collection

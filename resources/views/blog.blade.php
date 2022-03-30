@@ -10,7 +10,7 @@
         </h1>
 
         <p class="mb-4">
-            Here on my blog I try to write about various things which keep me busy. There's lots of posts on various tech related topics but I also sometimes blog about <a href="{{ route('post', 'one-club-player') }}">sports</a>, <a href="{{ route('post', '1984') }}">books</a>, <a href="{{ route('post', 'star-wars-the-last-jedi-review') }}">movies</a> and other things.
+            Here on my blog I try to write about various things which keep me busy. There's lots of posts on various tech related topics.
         </p>
 
         <p class="mb-4">
@@ -18,7 +18,7 @@
         </p>
 
         <p>
-            <a href="{{ route('feeds.main') }}">RSS Feed <i class="enlarge fas fa-rss ml-1"></i></a>
+            <a href="{{ route('feeds.main') }}">RSS Feed <x-fas-rss class="inline w-4 h-4 mb-1" /></a>
         </p>
     @endcomponent
 
@@ -32,7 +32,7 @@
                 <h3 class="mt-8 mb-4 font-bold">{{ $year }}</h3>
             @endif
 
-            <span class="block text-xs uppercase text-gray-600">
+            <span class="block text-xs uppercase text-gray-500">
                 {{ $post->published_at->format('F j, Y') }}
             </span>
 
